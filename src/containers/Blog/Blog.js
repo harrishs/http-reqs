@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, NavLink, Switch } from "react-router-dom";
 
 import Posts from "./Posts/Posts";
 import "./Blog.css";
+import NewPost from "./NewPost/NewPost";
+import FullPost from "./FullPost/FullPost";
 
 class Blog extends Component {
   render() {
@@ -12,16 +14,36 @@ class Blog extends Component {
           <nav>
             <ul>
               <li>
-                <a href="/">Home</a>
+                <NavLink
+                  to="/"
+                  exact
+                  activeStyle={{
+                    textDecoration: "underline"
+                  }}
+                >
+                  Home
+                </NavLink>
               </li>
               <li>
-                <a href="/new-post">New Post</a>
+                <NavLink
+                  to={{
+                    pathname: "/new-post",
+                    hash: "#submit",
+                    search: "?quick-submit=true"
+                  }}
+                >
+                  New Post
+                </NavLink>
               </li>
             </ul>
           </nav>
         </header>
         {/* Can use render instead of component to output jsx */}
-        <Route path="/" exact component={Posts} />
+        <Switch>
+          <Route path="/" exact component={Posts} />
+          <Route path="/new-post" exact component={NewPost} />
+          <Route path="/:id" exact component={FullPost} />
+        </Switch>
       </div>
     );
   }
